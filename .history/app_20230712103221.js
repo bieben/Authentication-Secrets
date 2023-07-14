@@ -42,29 +42,28 @@ app.get("/register", (req, res) => {
 
 app.post("/register", (req, res) => {
     bcrypt.hash(req.body.password, salt, function(err, hash) {
-        const newUser = new User({
-            email: req.body.username,
-            password: hash
-        });
+        // Store hash in your password DB.
+    });
 
-        newUser.save().then(() =>{
-            res.render("secrets");
-        });
+    const newUser = new User({
+        email: req.body.username,
+        password: md5(req.body.password)
+    });
+
+    newUser.save().then(() =>{
+        res.render("secrets");
     });
 });
 
 app.post("/login", async(req, res) => {
     const username = req.body.username;
-    const password = req.body.password;
+    const password = md5(req.body.password);
 
-    
     const foundUser = await User.findOne({email: username});
     if (foundUser) {
-        bcrypt.compare(password, foundUser.password, function(err, result) {
-            if(result === true){
-                res.render("secrets");
-            }
-        });
+        if (foundUser.password === password) {
+            res.render("secrets");
+        }
     }
 })
 

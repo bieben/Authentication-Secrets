@@ -55,16 +55,13 @@ app.post("/register", (req, res) => {
 
 app.post("/login", async(req, res) => {
     const username = req.body.username;
-    const password = req.body.password;
+    const password = md5(req.body.password);
 
-    
     const foundUser = await User.findOne({email: username});
     if (foundUser) {
-        bcrypt.compare(password, foundUser.password, function(err, result) {
-            if(result === true){
-                res.render("secrets");
-            }
-        });
+        if (foundUser.password === password) {
+            res.render("secrets");
+        }
     }
 })
 

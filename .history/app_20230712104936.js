@@ -60,11 +60,11 @@ app.post("/login", async(req, res) => {
     
     const foundUser = await User.findOne({email: username});
     if (foundUser) {
-        bcrypt.compare(password, foundUser.password, function(err, result) {
+        bcrypt.compare(password, hash, function(err, result) {
             if(result === true){
                 res.render("secrets");
             }
-        });
+    });
     }
 })
 

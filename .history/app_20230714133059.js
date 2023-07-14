@@ -7,9 +7,11 @@ const encrypt = require("mongoose-encryption");
 const md5 = require("md5");
 const bcrypt = require("bcrypt");
 const salt = 10;
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const app = express();
-
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
